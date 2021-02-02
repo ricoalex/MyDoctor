@@ -7,7 +7,7 @@ const Login = () => {
   return (
     <View style={styles.page}>
       <ILLogo />
-      <Text style={styles.title}>Masuk dan mulai berkonsultasi</Text>
+      <Text style={styles.title}>Masuk dan mulai berkonsultasi YA</Text>
       <Input label="Email Address" />
       <Gap height={24} />
       <Input label="Password" />
