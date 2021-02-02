@@ -1,0 +1,30 @@
+import React from 'react';
+import {StyleSheet, Text, View} from 'react-native';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+
+const Button = ({type, title, onPress}) => {
+  return (
+    <TouchableOpacity style={styles.container(type)}>
+      <Text style={styles.text(type)} onPress={onPress}>
+        {title}
+      </Text>
+    </TouchableOpacity>
+  );
+};
+
+export default Button;
+
+const styles = StyleSheet.create({
+  container: (type) => ({
+    backgroundColor: type === 'secondary' ? 'white' : '#0BCAD4',
+    paddingVertical: 10,
+    borderRadius: 10,
+  }),
+  text: (type) => ({
+    fontSize: 18,
+    fontFamily: 'Nunito-SemiBold',
+    // fontWeight: '600',
+    textAlign: 'center',
+    color: type === 'secondary' ? '#112340' : 'white',
+  }),
+});
