@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {ImageBackground, StyleSheet, Text, View} from 'react-native';
 import {
   DummyHospital1,
@@ -7,9 +7,24 @@ import {
   ILLHospitalBG,
 } from '../../assets';
 import {ListHospital} from '../../components';
-import {colors, fonts} from '../../utils';
+import {Fire} from '../../config';
+import {colors, fonts, showError} from '../../utils';
 
 const Hospitals = () => {
+  const [listhospitals, setListHospitals] = useState([]);
+  useEffect(() => {
+    Fire.database()
+      .ref('hospitals/')
+      .once('value')
+      .then((res) => {
+        if (res.val()) {
+          setListHospitals(res.val());
+        }
+      })
+      .catch((err) => {
+        showError(err.message);
+      });
+  }, []);
   return (
     <View style={styles.page}>
       <ImageBackground source={ILLHospitalBG} style={styles.background}>
@@ -17,24 +32,17 @@ const Hospitals = () => {
         <Text style={styles.desc}>3 Tersedia</Text>
       </ImageBackground>
       <View style={styles.content}>
-        <ListHospital
-          type="Rumah Sakit"
-          name="Citra Bunga Merdeka"
-          address="Jln Surya Sejahtera 20"
-          pic={DummyHospital1}
-        />
-        <ListHospital
-          type="Rumah Sakit Anak"
-          name="Happy Family Kids"
-          address="Jln Surya Sejahtera 20"
-          pic={DummyHospital2}
-        />
-        <ListHospital
-          type="Rumah Sakit Jiwa"
-          name="Tingkatan Paling Atas"
-          address="Jln Surya Sejahtera 20"
-          pic={DummyHospital3}
-        />
+        {listhospitals.map((item) => {
+          return (
+            <ListHospital
+              key={item.id}
+              type={item.type}
+              name={item.name}
+              address={item.address}
+              pic={item.image}
+            />
+          );
+        })}
       </View>
     </View>
   );
